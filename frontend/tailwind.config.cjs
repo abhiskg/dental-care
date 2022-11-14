@@ -9,6 +9,10 @@ module.exports = {
           100: "#19D3AE",
         },
         secondary: "#3A4256",
+        layer: "#fcfdfe",
+      },
+      backgroundImage: {
+        "hero-pattern": "url('/src/assets/images/bg.png')",
       },
     },
   },
