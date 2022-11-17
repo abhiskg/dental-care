@@ -1,4 +1,5 @@
 import chair from "../../../assets/images/chair.png";
+import PrimaryButton from "../../../components/ui/PrimaryButton";
 
 const Hero = () => {
   return (
@@ -16,9 +17,7 @@ const Hero = () => {
             hexagon try-hard chambray.
           </p>
           <div className="flex justify-center">
-            <button className="inline-flex text-white bg-gradient-to-r from-primary-100 to-primary-50 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Get Started
-            </button>
+            <PrimaryButton>Get Started</PrimaryButton>
           </div>
         </div>
         <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">

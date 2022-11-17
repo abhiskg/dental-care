@@ -3,6 +3,7 @@ import whitening from "../../../assets/images/whitening.png";
 import fluoride from "../../../assets/images/fluoride.png";
 import treatment from "../../../assets/images/treatment.png";
 import ServiceCard from "../../../components/cards/ServiceCard";
+import PrimaryButton from "../../../components/ui/PrimaryButton";
 
 const Services = () => {
   const serviceData = [
@@ -52,9 +53,7 @@ const Services = () => {
             here', making it look like readable English. Many desktop publishing
             packages and web page
           </p>
-          <button className="inline-flex text-white bg-gradient-to-r from-primary-100 to-primary-50 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-            Get Started
-          </button>
+          <PrimaryButton>Get Started</PrimaryButton>
         </div>
         <div className="mt-10 lg:mt-0 lg:col-start-1 lg:row-start-1">
           <img
