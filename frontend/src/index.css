@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .modal-input {
+    @apply border block rounded w-full;
+  }
+}
 .custom-width {
   width: min(1360px, 94%);
 }

@@ -1,11 +1,14 @@
 import { AvailableAppointmentsType } from "../../types/availableAppointmentsType";
-import PrimaryButton from "../ui/PrimaryButton";
+import BookingModal from "../modals/BookingModal";
 
+interface AvailableOptionCardProps {
+  option: AvailableAppointmentsType;
+  selectedDate: Date;
+}
 const AvailableOptionCard = ({
   option,
-}: {
-  option: AvailableAppointmentsType;
-}) => {
+  selectedDate,
+}: AvailableOptionCardProps) => {
   const { name, slots } = option;
   return (
     <div className="shadow rounded flex justify-center py-7 px-3 flex-col items-center">
@@ -14,7 +17,7 @@ const AvailableOptionCard = ({
       <div>
         {slots.length} {slots.length > 1 ? "spaces" : "space"} available
       </div>
-      <PrimaryButton>Book Appointment</PrimaryButton>
+      <BookingModal option={option} selectedDate={selectedDate} />
     </div>
   );
 };

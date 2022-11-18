@@ -2,13 +2,15 @@ import { format } from "date-fns";
 import AvailableOptionCard from "../../../components/cards/AvailableOptionCard";
 import useAvailableAppointmentsData from "../../../hooks/useAvailableAppointmentsData";
 
+interface AvailableAppointmentsProps {
+  selectedDate: Date | undefined;
+}
+
 const AvailableAppointments = ({
   selectedDate,
-}: {
-  selectedDate: Date | undefined;
-}) => {
+}: AvailableAppointmentsProps) => {
   const { data } = useAvailableAppointmentsData();
-  console.log(data);
+
   return (
     <div>
       {selectedDate && (
@@ -18,8 +20,13 @@ const AvailableAppointments = ({
       )}
       <div className="grid grid-cols-3 gap-4">
         {data &&
+          selectedDate &&
           data.map((option) => (
-            <AvailableOptionCard key={option._id} option={option} />
+            <AvailableOptionCard
+              key={option._id}
+              option={option}
+              selectedDate={selectedDate}
+            />
           ))}
       </div>
     </div>
