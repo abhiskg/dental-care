@@ -1,17 +1,17 @@
 import { useContext, useState } from "react";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
-// import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
-  // const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
-  // const handleSignOut = () => {
-  //   authContext?.logOut().then(() => {
-  //     toast.success("Successfully Logout");
-  //   });
-  // };
+  const handleSignOut = () => {
+    authContext?.logOut().then(() => {
+      toast.success("Successfully Logout");
+    });
+  };
 
   return (
     <header className=" bg-primary sticky top-0 z-10 h-16  dark:bg-gray-900 dark:text-gray-100">
@@ -41,7 +41,7 @@ const Header = () => {
             </NavLink>
           </li>
 
-          {/* {authContext?.user && authContext.user.uid ? (
+          {authContext?.user && authContext.user.uid ? (
             <>
               <li className="hover:text-blue-900">
                 <NavLink
@@ -107,7 +107,7 @@ const Header = () => {
                 </NavLink>
               </li>
             </>
-          )} */}
+          )}
         </ul>
 
         {/* Hamburger Menu */}
