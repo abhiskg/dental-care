@@ -4,11 +4,12 @@ import { AvailableAppointmentsType } from "../types/availableAppointmentsType";
 const fetchAvailableAppointmentsData = async (): Promise<
   AvailableAppointmentsType[]
 > => {
-  const res = await fetch("appointmentOptions.json");
-  if (!res.ok) {
+  const res = await fetch("http://localhost:5000/api/appointmentOptions");
+  const { data, success } = await res.json();
+  if (!success) {
     throw new Error("Network response was not ok");
   }
-  return res.json();
+  return data;
 };
 
 export const useAvailableAppointmentsData = () => {
