@@ -3,13 +3,14 @@ import AvailableOptionCard from "../../../components/cards/AvailableOptionCard";
 import useAvailableAppointmentsData from "../../../hooks/useAvailableAppointmentsData";
 
 interface AvailableAppointmentsProps {
-  selectedDate: Date | undefined;
+  selectedDate: Date;
 }
 
 const AvailableAppointments = ({
   selectedDate,
 }: AvailableAppointmentsProps) => {
-  const { data } = useAvailableAppointmentsData();
+  const date = format(selectedDate, "PP");
+  const { data } = useAvailableAppointmentsData(date);
 
   return (
     <div>

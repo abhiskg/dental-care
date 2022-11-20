@@ -1,14 +1,42 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AvailableAppointmentsType } from "../../types/availableAppointmentsType";
 import { format } from "date-fns";
+import { AuthContext } from "../../context/AuthContext";
+import { SubmitHandler, useForm } from "react-hook-form";
+import useBookingsData from "../../hooks/useBookingsData";
+import SpinLoader from "../loaders/SpinLoader";
 
 interface BookingModalProps {
   option: AvailableAppointmentsType;
   selectedDate: Date;
 }
 
+interface BookingsInputTypes {
+  patientName: string;
+  userEmail: string;
+  appointmentDate: string;
+  phone: number;
+  slot: string;
+  treatment: string;
+}
+
 const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
   const [showModal, setShowModal] = useState(false);
+
+  const authContext = useContext(AuthContext);
+
+  const { mutate, isLoading, isError, error } = useBookingsData();
+
+  const { register, handleSubmit, reset } = useForm<BookingsInputTypes>();
+
+  const onSubmitHandler: SubmitHandler<BookingsInputTypes> = (data) => {
+    mutate(data);
+    reset();
+  };
+
+  // if (isError) {
+  //   console.log(error);
+  // }
 
   return (
     <>
@@ -28,7 +56,7 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
               <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
-                  <div className="text-2xl font-semibold">{option.name}</div>
+                  <div className="text-2xl font-semibold">Appointment</div>
                   <button
                     className="float-right ml-auto border-0 bg-red-500 rounded-full w-10 h-10 text-2xl text-white  outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
@@ -37,43 +65,68 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative flex-auto p-4 space-y-2">
-                  <input
-                    type="text"
-                    defaultValue={format(selectedDate, "PP")}
-                    className="modal-input"
-                    name=""
-                    id=""
-                  />
-                  <select className="modal-input" name="" id="">
-                    {option.slots.map((slot, index) => (
-                      <option key={index} value={slot}>
-                        {slot}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    placeholder="Full name"
-                    className="modal-input"
-                    name=""
-                    id=""
-                  />
-                  <input
-                    type="text"
-                    placeholder="Phone No"
-                    className="modal-input"
-                    name=""
-                    id=""
-                  />
-                  <input
-                    type="text"
-                    placeholder="Email"
-                    className="modal-input"
-                    name=""
-                    id=""
-                  />
-                </div>
+                {authContext?.user?.uid ? (
+                  <form
+                    onSubmit={handleSubmit(onSubmitHandler)}
+                    className="relative flex-auto p-4 space-y-2"
+                  >
+                    <input
+                      type="text"
+                      defaultValue={option.name}
+                      className="modal-input"
+                      {...register("treatment")}
+                      name=""
+                      id=""
+                    />
+                    <input
+                      type="text"
+                      defaultValue={format(selectedDate, "PP")}
+                      className="modal-input"
+                      {...register("appointmentDate")}
+                      name=""
+                      id=""
+                    />
+                    <input
+                      type="text"
+                      placeholder="Email"
+                      className="modal-input"
+                      defaultValue={authContext.user.email || ""}
+                      {...register("userEmail")}
+                      name=""
+                      id=""
+                    />
+                    <input
+                      type="text"
+                      placeholder="Full name"
+                      className="modal-input"
+                      defaultValue={authContext.user?.displayName || ""}
+                      {...register("patientName")}
+                      name=""
+                      id=""
+                    />
+                    <select className="modal-input" id="" {...register("slot")}>
+                      {option.slots.map((slot, index) => (
+                        <option key={index} value={slot}>
+                          {slot}
+                        </option>
+                      ))}
+                    </select>
+
+                    <input
+                      type="number"
+                      placeholder="Phone No"
+                      className="modal-input"
+                      {...register("phone")}
+                      id=""
+                    />
+                    <button type="submit">
+                      {isLoading ? <SpinLoader /> : "Submit"}
+                    </button>
+                  </form>
+                ) : (
+                  <div>Login to book appointment</div>
+                )}
+
                 {/*footer*/}
                 <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-4">
                   <button
