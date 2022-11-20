@@ -15,7 +15,7 @@ const fetchAvailableAppointmentsData = async (
 };
 
 export const useAvailableAppointmentsData = (date: string) => {
-  return useQuery(["available-appointments"], () =>
+  return useQuery(["available-appointments", date], () =>
     fetchAvailableAppointmentsData(date)
   );
 };

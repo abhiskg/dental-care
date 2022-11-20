@@ -32,6 +32,7 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
   const onSubmitHandler: SubmitHandler<BookingsInputTypes> = (data) => {
     mutate(data);
     reset();
+    setShowModal(false);
   };
 
   // if (isError) {

@@ -21,8 +21,8 @@ const useBookingsData = () => {
   const queryClient = useQueryClient();
   return useMutation(createNewBooking, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["available-appointments"]);
       toast.success("Booking Complete");
+      queryClient.invalidateQueries(["available-appointments"]);
     },
   });
 };
