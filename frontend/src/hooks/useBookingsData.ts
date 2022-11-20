@@ -24,6 +24,9 @@ const useBookingsData = () => {
       toast.success("Booking Complete");
       queryClient.invalidateQueries(["available-appointments"]);
     },
+    onError: () => {
+      toast.error("You already booked this appointment");
+    },
   });
 };
 

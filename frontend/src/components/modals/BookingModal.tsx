@@ -26,7 +26,7 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
 
   const authContext = useContext(AuthContext);
 
-  const { mutate, isLoading, isError, error, isSuccess } = useBookingsData();
+  const { mutate, isLoading } = useBookingsData();
 
   const { register, handleSubmit, reset } = useForm<BookingsInputTypes>();
 
@@ -35,10 +35,6 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
     reset();
     setShowModal(false);
   };
-
-  // if (isError) {
-  //   toast.error("Already Booked");
-  // }
 
   return (
     <>

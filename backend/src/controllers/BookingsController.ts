@@ -12,7 +12,7 @@ export const CreateNewBooking = async (req: Request, res: Response) => {
     if (bookedAppointments.length) {
       return res
         .status(403)
-        .json({ success: false, error: "You are not alowed" });
+        .json({ success: false, error: "You are not allowed" });
     }
 
     const newBookings = await Bookings.create(req.body);
