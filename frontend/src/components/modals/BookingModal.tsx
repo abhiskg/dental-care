@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useBookingsData from "../../hooks/useBookingsData";
 import SpinLoader from "../loaders/SpinLoader";
+import toast from "react-hot-toast";
 
 interface BookingModalProps {
   option: AvailableAppointmentsType;
@@ -25,7 +26,7 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
 
   const authContext = useContext(AuthContext);
 
-  const { mutate, isLoading, isError, error } = useBookingsData();
+  const { mutate, isLoading, isError, error, isSuccess } = useBookingsData();
 
   const { register, handleSubmit, reset } = useForm<BookingsInputTypes>();
 
@@ -36,7 +37,7 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
   };
 
   // if (isError) {
-  //   console.log(error);
+  //   toast.error("Already Booked");
   // }
 
   return (

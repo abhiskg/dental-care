@@ -2,7 +2,19 @@ import { Request, Response } from "express";
 import Bookings from "../models/Bookings";
 
 export const CreateNewBooking = async (req: Request, res: Response) => {
+  const query = {
+    appointmentDate: req.body.appointmentDate,
+    userEmail: req.body.userEmail,
+    treatment: req.body.treatment,
+  };
   try {
+    const bookedAppointments = await Bookings.find(query);
+    if (bookedAppointments.length) {
+      return res
+        .status(403)
+        .json({ success: false, error: "You are not alowed" });
+    }
+
     const newBookings = await Bookings.create(req.body);
     res.status(200).json({
       success: true,
