@@ -18,7 +18,7 @@ interface AuthContextType {
   user: User | null;
   signInWithProvider: (provider: AuthProvider) => Promise<UserCredential>;
   logOut: () => Promise<void>;
-  updateUser: (name: string, profilePic: string, user: User) => Promise<void>;
+  updateUser: (name: string, user: User) => Promise<void>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -49,11 +49,10 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const updateUser = (name: string, profilePic: string, user: User) => {
+  const updateUser = (name: string, user: User) => {
     setLoading(true);
     return updateProfile(user, {
       displayName: name,
-      photoURL: profilePic,
     });
   };
 

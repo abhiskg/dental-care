@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { loadUserToDatabase } from "../../utils/manageUserDb";
 
 const GoogleLogin = () => {
   const authContext = useContext(AuthContext);
@@ -17,14 +18,10 @@ const GoogleLogin = () => {
     authContext
       ?.signInWithProvider(provider)
       .then(({ user }) => {
-        axios
-          .post("https://ultimate-fit-backend.vercel.app/api/jwt", { email: user.email })
-          .then(({ data }) => {
-            localStorage.setItem("service-token", data.token);
+        loadUserToDatabase(user.displayName, user.email);
 
-            toast.success("Login Successful");
-            navigate(from, { replace: true });
-          });
+        toast.success("Login Successful");
+        navigate(from, { replace: true });
       })
       .catch((err: any) => {
         toast.error("Something went wrong, please try again later");

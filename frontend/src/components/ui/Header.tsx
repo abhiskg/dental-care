@@ -63,16 +63,7 @@ const Header = () => {
                   My Reviews
                 </NavLink>
               </li>
-              <li>
-                <img
-                  alt="profile-picture"
-                  className="h-10 w-10 rounded-full border border-gray-300 bg-gray-500"
-                  src={
-                    authContext.user.photoURL ||
-                    "https://source.unsplash.com/40x40/?portrait?1"
-                  }
-                />
-              </li>
+
               <li
                 className="cursor-pointer hover:text-blue-900"
                 onClick={handleSignOut}

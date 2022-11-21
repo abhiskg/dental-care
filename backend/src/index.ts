@@ -3,6 +3,7 @@ import cors from "cors";
 import dbConnect from "./config/dbConnect";
 import AppointmentOptionsRouter from "./routes/AppointmentOptionsRoute";
 import BookingRouter from "./routes/BookingsRoute";
+import UserRouter from "./routes/UsersRoute";
 
 const app = express();
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 5000;
 
 app.use("/api/appointmentOptions", AppointmentOptionsRouter);
 app.use("/api/bookings", BookingRouter);
+app.use("/api/users", UserRouter);
 
 dbConnect()
   .then(() => {
