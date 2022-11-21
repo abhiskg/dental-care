@@ -3,8 +3,8 @@ import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { loadUserToDatabase } from "../../utils/manageUserDb";
+import { getAccessToken } from "../../utils/manageAccessToken";
 
 const GoogleLogin = () => {
   const authContext = useContext(AuthContext);
@@ -18,10 +18,23 @@ const GoogleLogin = () => {
     authContext
       ?.signInWithProvider(provider)
       .then(({ user }) => {
-        loadUserToDatabase(user.displayName, user.email);
-
-        toast.success("Login Successful");
-        navigate(from, { replace: true });
+        loadUserToDatabase(user?.displayName as string, user.email as string)
+          .then((res) => res.json())
+          .then(({ success, token, data }) => {
+            if (success && token) {
+              localStorage.setItem("dental-care-token", token);
+            } else if (success && data) {
+              getAccessToken(data.email as string)
+                .then((res) => res.json())
+                .then(({ success, token }) => {
+                  if (success && token) {
+                    localStorage.setItem("dental-care-token", token);
+                  }
+                });
+            }
+            toast.success("Login Successful");
+            navigate(from, { replace: true });
+          });
       })
       .catch((err: any) => {
         toast.error("Something went wrong, please try again later");

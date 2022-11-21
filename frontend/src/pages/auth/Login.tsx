@@ -9,6 +9,7 @@ import GoogleLogin from "../../components/login/GoogleLogin";
 import SpinLoader from "../../components/loaders/SpinLoader";
 import useDocTitle from "../../hooks/useDocTitle";
 import axios from "axios";
+import { getAccessToken } from "../../utils/manageAccessToken";
 
 const LoginSchema = z.object({
   email: z
@@ -47,18 +48,16 @@ const Login = () => {
     authContext
       ?.signIn(email, password)
       .then(({ user }) => {
-        // Get jwt token
-        axios
-          .post("https://ultimate-fit-backend.vercel.app/api/jwt", {
-            email: user.email,
-          })
-          .then(({ data }) => {
-            localStorage.setItem("service-token", data.token);
-
-            setLoading(false);
-            reset();
-            toast.success("Login successful");
-            navigate(from, { replace: true });
+        getAccessToken(user.email as string)
+          .then((res) => res.json())
+          .then(({ success, token }) => {
+            if (success && token) {
+              localStorage.setItem("dental-care-token", token);
+              setLoading(false);
+              reset();
+              toast.success("Login successful");
+              navigate(from, { replace: true });
+            }
           });
       })
       .catch((err: any) => {

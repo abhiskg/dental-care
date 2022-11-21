@@ -1,8 +1,10 @@
 import express from "express";
-import { SetNewUser } from "../controllers/UsersController";
+import { GetUserByEmail, SetNewUser } from "../controllers/UsersController";
+import checkExistingUser from "../middleware/checkexistingUser";
 
 const router = express.Router();
 
-router.post("/", SetNewUser);
+router.post("/", checkExistingUser, SetNewUser);
+router.get("/", GetUserByEmail);
 
 export default router;

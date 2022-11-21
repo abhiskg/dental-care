@@ -63,7 +63,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logOut = () => {
     setLoading(true);
-    localStorage.removeItem("service-token");
+    localStorage.removeItem("dental-care-token");
     return signOut(auth);
   };
 

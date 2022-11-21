@@ -13,6 +13,7 @@ import useDocTitle from "../../hooks/useDocTitle";
 import axios from "axios";
 import { async } from "@firebase/util";
 import { loadUserToDatabase } from "../../utils/manageUserDb";
+import { getAccessToken } from "../../utils/manageAccessToken";
 
 const RegisterSchema = z.object({
   name: z.string().min(1, { message: "Please Enter your name" }),
@@ -61,15 +62,31 @@ const Register = () => {
   };
 
   const handleUpdateUserInfo = (name: string, user: User, email: string) => {
-    authContext?.updateUser(name, user).then(() => {
-      const data = loadUserToDatabase(name, email);
-      setLoading(false);
-      reset();
-      toast.success("Congratulation! Registration Successful");
-    });
-    // .finally(() => {
-    //   authContext.setLoading(false);
-    // });
+    authContext
+      ?.updateUser(name, user)
+      .then(() => {
+        loadUserToDatabase(name, email)
+          .then((res) => res.json())
+          .then(({ success, token, data }) => {
+            if (success && token) {
+              localStorage.setItem("dental-care-token", token);
+            } else if (success && data) {
+              getAccessToken(data.email as string)
+                .then((res) => res.json())
+                .then(({ success, token }) => {
+                  if (success && token) {
+                    localStorage.setItem("dental-care-token", token);
+                  }
+                });
+            }
+            setLoading(false);
+            reset();
+            toast.success("Congratulation! Registration Successful");
+          });
+      })
+      .finally(() => {
+        authContext.setLoading(false);
+      });
   };
 
   return (
