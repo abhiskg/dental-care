@@ -30,7 +30,7 @@ export const CreateNewBooking = async (req: Request, res: Response) => {
 
 export const GetAllAvailableBookings = async (req: Request, res: Response) => {
   try {
-    const allAvailableBookings = await Bookings.find({});
+    const allAvailableBookings = await Bookings.find({userEmail: req.query.email});
     res.status(200).json({
       success: true,
       data: allAvailableBookings,

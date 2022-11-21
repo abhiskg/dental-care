@@ -1,5 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { BookingsDataTypes } from "../types/bookingsTypes";
 
 const createNewBooking = async (bookingData: any) => {
   const res = await fetch("http://localhost:5000/api/bookings", {
@@ -17,7 +18,19 @@ const createNewBooking = async (bookingData: any) => {
   return data;
 };
 
-const useBookingsData = () => {
+const fetchBookingsDataByEmail: (
+  email: string
+) => Promise<BookingsDataTypes[]> = async (email: string) => {
+  const res = await fetch(`http://localhost:5000/api/bookings?email=${email}`);
+  const { success, data, error } = await res.json();
+
+  if (!success) {
+    throw new Error(error);
+  }
+  return data;
+};
+
+export const useSetBookingsData = () => {
   const queryClient = useQueryClient();
   return useMutation(createNewBooking, {
     onSuccess: () => {
@@ -30,4 +43,6 @@ const useBookingsData = () => {
   });
 };
 
-export default useBookingsData;
+export const useBookingsData = (email: string) => {
+  return useQuery(["bookings", email], () => fetchBookingsDataByEmail(email));
+};

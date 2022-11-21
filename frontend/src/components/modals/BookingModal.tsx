@@ -3,22 +3,13 @@ import { AvailableAppointmentsType } from "../../types/availableAppointmentsType
 import { format } from "date-fns";
 import { AuthContext } from "../../context/AuthContext";
 import { SubmitHandler, useForm } from "react-hook-form";
-import useBookingsData from "../../hooks/useBookingsData";
 import SpinLoader from "../loaders/SpinLoader";
-import toast from "react-hot-toast";
+import { useSetBookingsData } from "../../hooks/useBookingsData";
+import { BookingsInputTypes } from "../../types/bookingsTypes";
 
 interface BookingModalProps {
   option: AvailableAppointmentsType;
   selectedDate: Date;
-}
-
-interface BookingsInputTypes {
-  patientName: string;
-  userEmail: string;
-  appointmentDate: string;
-  phone: number;
-  slot: string;
-  treatment: string;
 }
 
 const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
@@ -26,7 +17,7 @@ const BookingModal = ({ option, selectedDate }: BookingModalProps) => {
 
   const authContext = useContext(AuthContext);
 
-  const { mutate, isLoading } = useBookingsData();
+  const { mutate, isLoading } = useSetBookingsData();
 
   const { register, handleSubmit, reset } = useForm<BookingsInputTypes>();
 

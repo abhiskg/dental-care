@@ -1,5 +1,11 @@
+import MyAppointments from "./MyAppointments";
+
 const Dashboard = () => {
-  return <div></div>;
+  return (
+    <div>
+      <MyAppointments />
+    </div>
+  );
 };
 
 export default Dashboard;
