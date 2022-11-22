@@ -31,3 +31,36 @@ export const GetAllUsers = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const UpdateUserRole = async (req: Request, res: Response) => {
+  try {
+    const updatedUser = await Users.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: (error as Error).message,
+    });
+  }
+};
+export const DeleteUser = async (req: Request, res: Response) => {
+  try {
+    const deletedUser = await Users.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      data: deletedUser,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: (error as Error).message,
+    });
+  }
+};

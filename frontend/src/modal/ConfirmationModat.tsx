@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
+import { useDeleteUserData } from "../hooks/useUsersData";
 
 export default function ConfirmationModal({ id }: { id: string }) {
   const [showModal, setShowModal] = useState(false);
-  const authContext = useContext(AuthContext);
+
+  const { mutate } = useDeleteUserData();
 
   const handleDelete = () => {
-    // mutate(id);
+    mutate(id);
     setShowModal(false);
   };
 

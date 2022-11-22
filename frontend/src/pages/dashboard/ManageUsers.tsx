@@ -1,13 +1,18 @@
 import PingLoader from "../../components/loaders/PingLoader";
-import useUsersData from "../../hooks/useUsersData";
+import { useUpdateUserRole, useUsersData } from "../../hooks/useUsersData";
 import ConfirmationModal from "../../modal/ConfirmationModat";
 
 const ManageUsers = () => {
   const { isLoading, data } = useUsersData();
+  const { mutate: mutateUpdate, error } = useUpdateUserRole();
 
   if (isLoading) {
     <PingLoader />;
   }
+
+  const handleAdmin = (id: string) => {
+    mutateUpdate(id);
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -40,7 +45,9 @@ const ManageUsers = () => {
                   <p>{user.email}</p>
                 </td>
                 <td className="p-3 text-center">
-                  <p>Make Admin</p>
+                  {user.role !== "admin" && (
+                    <p onClick={() => handleAdmin(user._id)}>Make Admin</p>
+                  )}
                 </td>
                 <td className="p-3 text-right">
                   <ConfirmationModal id={user._id} />
