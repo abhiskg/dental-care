@@ -21,7 +21,11 @@ const createNewBooking = async (bookingData: any) => {
 const fetchBookingsDataByEmail: (
   email: string
 ) => Promise<BookingsDataTypes[]> = async (email: string) => {
-  const res = await fetch(`http://localhost:5000/api/bookings?email=${email}`);
+  const res = await fetch(`http://localhost:5000/api/bookings?email=${email}`, {
+    headers: {
+      authorization: `bearer ${localStorage.getItem("dental-care-token")}`,
+    },
+  });
   const { success, data, error } = await res.json();
 
   if (!success) {

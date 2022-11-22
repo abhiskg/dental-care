@@ -72,9 +72,6 @@ const Login = () => {
           toast.error("Something went wrong, try again later");
         }
       });
-    // .finally(() => {
-    //   // authContext.setLoading(false);
-    // });
   };
 
   return (

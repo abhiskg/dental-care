@@ -4,7 +4,8 @@ import Root from "../layout/Root";
 import Appointment from "../pages/appointment/Appointment";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import Dashboard from "../pages/dashboard/Dashboard";
+import ManageUsers from "../pages/dashboard/ManageUsers";
+import MyAppointments from "../pages/dashboard/MyAppointments";
 import Home from "../pages/home/Home";
 import PrivateRoute from "./PrivateRoute";
 
@@ -43,7 +44,15 @@ const rootRoutes = createBrowserRouter([
         path: "/dashboard",
         element: (
           <PrivateRoute>
-            <Dashboard />
+            <MyAppointments />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manage-user",
+        element: (
+          <PrivateRoute>
+            <ManageUsers />
           </PrivateRoute>
         ),
       },

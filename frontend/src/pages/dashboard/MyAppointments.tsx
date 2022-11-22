@@ -14,7 +14,7 @@ const MyAppointments = () => {
     <PingLoader />;
   }
   return (
-    <div className="custom-width mx-auto">
+    <div className="">
       <div className="overflow-x-auto">
         <table className="min-w-full text-xs">
           <colgroup>

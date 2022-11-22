@@ -29,8 +29,16 @@ export const CreateNewBooking = async (req: Request, res: Response) => {
 };
 
 export const GetAllAvailableBookings = async (req: Request, res: Response) => {
+  const email = req.query.email;
+  const decodedEmail = req.decoded.email;
+
+  if (email !== decodedEmail) {
+    return res.status(403).json({ success: false, message: "Forbidden" });
+  }
   try {
-    const allAvailableBookings = await Bookings.find({userEmail: req.query.email});
+    const allAvailableBookings = await Bookings.find({
+      userEmail: email,
+    });
     res.status(200).json({
       success: true,
       data: allAvailableBookings,
